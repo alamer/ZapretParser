@@ -88,7 +88,7 @@ public enum ResponseResult {
                 return e;
             }
         }
-        return null;
+        return UNKNOWN;
     }
 
     /**
