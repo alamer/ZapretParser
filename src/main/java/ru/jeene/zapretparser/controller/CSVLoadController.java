@@ -43,20 +43,23 @@ public class CSVLoadController {
             while (regexMatcher.find()) {
                 //System.out.println(regexMatcher.group(1));
                 Model_CSV m = new Model_CSV();
-                String[] asset = regexMatcher.group(1).split("|");
-                List<String> assetList = new ArrayList();
-                Collections.addAll(assetList, asset);
-                m.setIp((ArrayList<String>) assetList);
-                m.setDomain(regexMatcher.group(2));
-                m.setUrl(regexMatcher.group(3));
-                m.setOrg(regexMatcher.group(4));
-                m.setDoc(regexMatcher.group(5));
-                m.setDate(regexMatcher.group(6));
-                res.add(m);
-                //System.out.println(m.getOrg());
+                String[] asset_url = regexMatcher.group(3).split("\\|");
+                for (String string : asset_url) {
+                    String[] asset = regexMatcher.group(1).split("\\|");
+                    List<String> assetList = new ArrayList();
+                    Collections.addAll(assetList, asset);
+                    m.setIp((ArrayList<String>) assetList);
+                    m.setDomain(regexMatcher.group(2));
+                    m.setUrl(string);
+                    m.setOrg(regexMatcher.group(4));
+                    m.setDoc(regexMatcher.group(5));
+                    m.setDate(regexMatcher.group(6));
+                    res.add(m);
+                }
 
+                //System.out.println(m.getOrg());
             }
-            System.out.println("Считано строк: "+res.size());
+            System.out.println("Считано строк: " + res.size());
         } catch (PatternSyntaxException ex) {
             // Syntax error in the regular expression
         }
