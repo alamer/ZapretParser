@@ -28,6 +28,7 @@ public class URLCheckController {
             HTTPCheckController c = new HTTPCheckController();
 
             return c.checkUrl(url);
+
         }
 
     }

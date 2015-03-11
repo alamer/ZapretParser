@@ -11,10 +11,15 @@
  */
 package ru.jeene.zapretparser.controller;
 
+import java.io.IOException;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -29,8 +34,19 @@ import ru.jeene.zapretparser.utils.HTTPUtils;
 public class CSVLoadController {
 
     private String loadfile() {
-        return FileUtils.readPage("D:/dump.csv");
-        //return HTTPUtils.loadPage("raw.githubusercontent.com", 443, "/zapret-info/z-i/master/dump.csv");
+        //return FileUtils.readPage("D:/dump.csv");
+        HTTPSCheckController c = new HTTPSCheckController();
+        try {
+            return c.getContent("https://raw.githubusercontent.com:443/zapret-info/z-i/master/dump.csv");
+//ldPage("raw.githubusercontent.com", 443, "/zapret-info/z-i/master/dump.csv");
+        } catch (KeyManagementException ex) {
+            Logger.getLogger(CSVLoadController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(CSVLoadController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(CSVLoadController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "";
     }
 
     public ArrayList<Model_CSV> parseCSV() {

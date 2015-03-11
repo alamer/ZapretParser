@@ -16,6 +16,8 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.ConnectException;
 import java.net.MalformedURLException;
+import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.UnknownHostException;
@@ -75,9 +77,13 @@ public class HTTPSCheckController {
             return res;
         } catch (UnknownHostException ex) {
             res = ResponseResult.UNKNOWN_HOST;
-        } catch (ConnectException ex) {
+        } catch (SocketTimeoutException | ConnectException ex) {
             res = ResponseResult.TIMEOUT;
-        } catch (IOException ex) {
+        } catch (SocketException ex)
+        {
+            res = ResponseResult.BLOCKED;
+        }
+        catch (IOException ex) {
             System.out.println(ex);
         } catch (KeyManagementException ex) {
             Logger.getLogger(HTTPSCheckController.class.getName()).log(Level.SEVERE, null, ex);

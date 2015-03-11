@@ -14,6 +14,7 @@ package ru.jeene.zapretparser.controller;
 import java.io.IOException;
 import java.net.ConnectException;
 import java.net.HttpURLConnection;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.UnknownHostException;
 import ru.jeene.zapretparser.models.ResponseResult;
@@ -45,7 +46,7 @@ public class HTTPCheckController {
             }
         } catch (UnknownHostException ex) {
             res = ResponseResult.UNKNOWN_HOST;
-        } catch (ConnectException ex) {
+        } catch (SocketTimeoutException | ConnectException ex) {
             res = ResponseResult.TIMEOUT;
         } catch (IOException ex) {
             System.out.println(ex);
