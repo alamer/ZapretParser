@@ -57,7 +57,7 @@ public class HTTPCheckController {
         {
             res=ResponseResult.PROTOCOL_EXCEPTION;
         }
-        catch (IOException ex) {
+        catch (Exception ex) {
             res=ResponseResult.UNKNOWN;
         }
         return res;

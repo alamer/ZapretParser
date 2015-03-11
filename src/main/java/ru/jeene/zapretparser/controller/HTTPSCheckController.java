@@ -85,12 +85,12 @@ public class HTTPSCheckController {
             res = ResponseResult.BLOCKED;
         } catch (ProtocolException ex) {
             res = ResponseResult.PROTOCOL_EXCEPTION;
-        } catch (IOException ex) {
-            res = ResponseResult.UNKNOWN;
         } catch (KeyManagementException ex) {
             Logger.getLogger(HTTPSCheckController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(HTTPSCheckController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            res = ResponseResult.UNKNOWN;
         }
         return res;
     }

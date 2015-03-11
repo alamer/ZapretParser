@@ -12,6 +12,9 @@
 package ru.jeene.zapretparser.worker;
 
 import ru.jeene.zapretparser.controller.URLCheckController;
+import ru.jeene.zapretparser.models.FullReport;
+import ru.jeene.zapretparser.models.Model_CSV;
+import ru.jeene.zapretparser.models.Model_FullReport;
 import ru.jeene.zapretparser.models.ResponseResult;
 
 /**
@@ -20,10 +23,12 @@ import ru.jeene.zapretparser.models.ResponseResult;
  */
 public class ZapretCheckWorker implements Runnable {
 
-    private String command;
+    private Model_CSV command;
+    private FullReport rep;
 
-    public ZapretCheckWorker(String s) {
+    public ZapretCheckWorker(Model_CSV s, FullReport rep) {
         this.command = s;
+        this.rep = rep;
     }
 
     @Override
@@ -37,18 +42,17 @@ public class ZapretCheckWorker implements Runnable {
         try {
             //Thread.sleep(500);
             URLCheckController controller = new URLCheckController();
-            ResponseResult tmp = controller.checkUrl(command);
-            if (!"-1".equals(tmp)) {
-                System.out.println(command + " " + tmp.getDesc());
-            }
+            ResponseResult tmp = controller.checkUrl(command.getUrl());
+            Model_FullReport m = new Model_FullReport();
+            m.setResult(tmp);
+            m.setElement(command);
+            rep.putReport(m);
+            System.out.println(command + " " + tmp.getDesc());
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    @Override
-    public String toString() {
-        return this.command;
-    }
 
 }

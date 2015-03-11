@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import ru.jeene.zapretparser.controller.CSVLoadController;
+import ru.jeene.zapretparser.models.FullReport;
 import ru.jeene.zapretparser.models.Model_CSV;
 import ru.jeene.zapretparser.worker.ZapretCheckWorker;
 
@@ -29,9 +30,10 @@ public class App {
     public App() {
         CSVLoadController loader = new CSVLoadController();
         ArrayList<Model_CSV> list = loader.parseCSV();
+        FullReport rep=new FullReport();
         ExecutorService executor = Executors.newFixedThreadPool(10);
         for (Model_CSV stroka : list) {
-            Runnable worker = new ZapretCheckWorker(stroka.getUrl());
+            Runnable worker = new ZapretCheckWorker(stroka,rep);
             executor.execute(worker);
         }
         /*for (int i = 0; i < 10; i++) {
@@ -42,6 +44,7 @@ public class App {
         while (!executor.isTerminated()) {
         }
         System.out.println("Finished all threads");
+        System.out.println(rep.reportCountBytype());
     }
 
     public static void main(String[] args) {
