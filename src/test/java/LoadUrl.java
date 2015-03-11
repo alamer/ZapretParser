@@ -4,7 +4,10 @@
  * and open the template in the editor.
  */
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -55,31 +58,32 @@ public class LoadUrl {
     // TODO add test methods here.
     // The methods must be annotated with annotation @Test. For example:
     //
-    @Test
-    public void hello() {
-        try {
-            URL url = new URL("http://alisa.esrr.oao.rzd:8082");
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            connection.connect();
-            int code = connection.getResponseCode();
-            System.out.println(code);
-        } catch (UnknownHostException ex) {
-            //@TODO тут не нашли хост
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(LoadUrl.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(LoadUrl.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    /*@Test
+     public void hello() {
+     try {
+     URL url = new URL("http://alisa.esrr.oao.rzd:8082");
+     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+     connection.setRequestMethod("GET");
+     connection.connect();
+     int code = connection.getResponseCode();
+     System.out.println(code);
+     } catch (UnknownHostException ex) {
+     //@TODO тут не нашли хост
+     } catch (MalformedURLException ex) {
+     Logger.getLogger(LoadUrl.class.getName()).log(Level.SEVERE, null, ex);
+     } catch (IOException ex) {
+     Logger.getLogger(LoadUrl.class.getName()).log(Level.SEVERE, null, ex);
+     }
 
-    }
-
+     }*/
     @Test
     public void hello2() {
         try {
-            HttpURLConnection connection = (HttpURLConnection) new URL("http://alisa.esrr.oao.rzd:8082").openConnection();
+            HttpURLConnection connection = (HttpURLConnection) new URL("http://Tutrostov.ru/doska/28397.php").openConnection();
             connection.setRequestMethod("HEAD");
+            connection.connect();
             int responseCode = connection.getResponseCode();
+            System.out.println( connection.getContentLength( ));
             if (responseCode != 200) {
                 System.out.println(responseCode);
             }

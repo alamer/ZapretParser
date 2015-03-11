@@ -11,6 +11,8 @@
  */
 package ru.jeene.zapretparser.worker;
 
+import ru.jeene.zapretparser.controller.URLCheckController;
+
 /**
  *
  * @author ivc_ShherbakovIV
@@ -25,15 +27,20 @@ public class ZapretCheckWorker implements Runnable {
 
     @Override
     public void run() {
-        System.out.println(Thread.currentThread().getName() + " Start. Command=" + command);
+        //System.out.println(Thread.currentThread().getName() + " Start. Command=" + command);
         processCommand();
-        System.out.println(Thread.currentThread().getName() + " End.");
+        //System.out.println(Thread.currentThread().getName() + " End.");
     }
 
     private void processCommand() {
         try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
+            //Thread.sleep(500);
+            URLCheckController controller = new URLCheckController();
+            String tmp = controller.checkUrl(command);
+            if (!"-1".equals(tmp)) {
+                System.out.println(command + " " + tmp);
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

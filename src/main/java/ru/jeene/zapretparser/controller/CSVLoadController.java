@@ -20,6 +20,7 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 import ru.jeene.zapretparser.models.Model_CSV;
 import ru.jeene.zapretparser.utils.FileUtils;
+import ru.jeene.zapretparser.utils.HTTPUtils;
 
 /**
  *
@@ -29,6 +30,7 @@ public class CSVLoadController {
 
     private String loadfile() {
         return FileUtils.readPage("D:/dump.csv");
+        //return HTTPUtils.loadPage("raw.githubusercontent.com", 443, "/zapret-info/z-i/master/dump.csv");
     }
 
     public ArrayList<Model_CSV> parseCSV() {
