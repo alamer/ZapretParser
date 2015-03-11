@@ -39,7 +39,7 @@ public class ZapretCheckWorker implements Runnable {
             URLCheckController controller = new URLCheckController();
             ResponseResult tmp = controller.checkUrl(command);
             if (!"-1".equals(tmp)) {
-                System.out.println(command + " " + tmp.name());
+                System.out.println(command + " " + tmp.getDesc());
             }
         } catch (Exception e) {
             e.printStackTrace();
