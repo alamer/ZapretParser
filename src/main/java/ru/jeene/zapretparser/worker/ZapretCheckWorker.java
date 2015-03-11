@@ -12,6 +12,7 @@
 package ru.jeene.zapretparser.worker;
 
 import ru.jeene.zapretparser.controller.URLCheckController;
+import ru.jeene.zapretparser.models.ResponseResult;
 
 /**
  *
@@ -36,9 +37,9 @@ public class ZapretCheckWorker implements Runnable {
         try {
             //Thread.sleep(500);
             URLCheckController controller = new URLCheckController();
-            String tmp = controller.checkUrl(command);
+            ResponseResult tmp = controller.checkUrl(command);
             if (!"-1".equals(tmp)) {
-                System.out.println(command + " " + tmp);
+                System.out.println(command + " " + tmp.name());
             }
         } catch (Exception e) {
             e.printStackTrace();

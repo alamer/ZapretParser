@@ -11,13 +11,7 @@
  */
 package ru.jeene.zapretparser.controller;
 
-import java.io.IOException;
-import java.net.ConnectException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.UnknownHostException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import ru.jeene.zapretparser.models.ResponseResult;
 
 /**
  *
@@ -25,37 +19,15 @@ import java.util.logging.Logger;
  */
 public class URLCheckController {
 
-    public String checkUrl(String url) {
-        String res = "Unknown";
+    public ResponseResult checkUrl(String url) {
+        ResponseResult res = ResponseResult.UNKNOWN;
         if (url.contains("https://")) {
-            return "-1";
+            HTTPSCheckController c = new HTTPSCheckController();
+            return c.checkUrl(url);
         } else {
-            try {
-                HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
-                connection.setRequestMethod("HEAD");
-                int responseCode = connection.getResponseCode();
+            HTTPCheckController c = new HTTPCheckController();
 
-                if (responseCode != 200) {
-                    res = String.valueOf(responseCode);
-
-                } else {
-                    //
-                    String current_url = connection.getURL().toString();
-                    if (!current_url.contains("zapret-info.dsi.ru") && connection.getContentLength( )>0) {
-                        
-                        res = "Worked";
-                    } else {
-                        res = "Blocked";
-                    }
-                }
-            } catch (UnknownHostException ex) {
-                res = "UnknownHost";
-            } catch (ConnectException ex) {
-                res = "Timeout";
-            } catch (IOException ex) {
-                System.out.println(ex);
-            }
-            return res;
+            return c.checkUrl(url);
         }
 
     }
