@@ -41,10 +41,11 @@ public class URLCheckController {
                 } else {
                     //
                     String current_url = connection.getURL().toString();
-                    if (current_url.contains("zapret-info.dsi.ru")) {
-                        res = "Blocked";
-                    } else {
+                    if (!current_url.contains("zapret-info.dsi.ru") && connection.getContentLength( )>0) {
+                        
                         res = "Worked";
+                    } else {
+                        res = "Blocked";
                     }
                 }
             } catch (UnknownHostException ex) {
