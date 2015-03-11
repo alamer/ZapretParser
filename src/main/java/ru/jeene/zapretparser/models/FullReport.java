@@ -63,11 +63,11 @@ public class FullReport {
         res.append("Отчет по всем типам ошибок URL\r\n");
         HashMap<ResponseResult, Integer> map = new HashMap<>();
         for (Model_FullReport model_FullReport : list) {
-            ResponseResult r = model_FullReport.getResult();
-            if (r == null) {
+            ResponseResult r = model_FullReport.getResult();            
+            if (map.get(r) == null) {
                 map.put(r, 0);
             }
-            Integer current = map.get(r);
+            int current = map.get(r);
             map.put(r, current + 1);
         }
         for (Map.Entry<ResponseResult, Integer> entry : map.entrySet()) {
