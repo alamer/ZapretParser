@@ -14,6 +14,8 @@ package ru.jeene.zapretparser.controller;
 import java.io.IOException;
 import java.net.ConnectException;
 import java.net.HttpURLConnection;
+import java.net.ProtocolException;
+import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.UnknownHostException;
@@ -47,8 +49,16 @@ public class HTTPCheckController {
             res = ResponseResult.UNKNOWN_HOST;
         } catch (SocketTimeoutException | ConnectException ex) {
             res = ResponseResult.TIMEOUT;
-        } catch (IOException ex) {
-            System.out.println(ex);
+        } catch(SocketException ex)
+        {
+            res=ResponseResult.SOCKET_EXCEPTION;
+        }
+         catch(ProtocolException ex)
+        {
+            res=ResponseResult.PROTOCOL_EXCEPTION;
+        }
+        catch (IOException ex) {
+            res=ResponseResult.UNKNOWN;
         }
         return res;
     }

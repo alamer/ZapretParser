@@ -16,6 +16,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.ConnectException;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
@@ -29,6 +30,7 @@ import java.util.logging.Logger;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLProtocolException;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
@@ -79,12 +81,12 @@ public class HTTPSCheckController {
             res = ResponseResult.UNKNOWN_HOST;
         } catch (SocketTimeoutException | ConnectException ex) {
             res = ResponseResult.TIMEOUT;
-        } catch (SocketException ex)
-        {
+        } catch (SocketException ex) {
             res = ResponseResult.BLOCKED;
-        }
-        catch (IOException ex) {
-            System.out.println(ex);
+        } catch (ProtocolException ex) {
+            res = ResponseResult.PROTOCOL_EXCEPTION;
+        } catch (IOException ex) {
+            res = ResponseResult.UNKNOWN;
         } catch (KeyManagementException ex) {
             Logger.getLogger(HTTPSCheckController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NoSuchAlgorithmException ex) {
