@@ -33,8 +33,7 @@ public class HTTPCheckController {
             int responseCode = connection.getResponseCode();
 
             if (responseCode != 200) {
-                res = ResponseResult.ERROR_NOT_SET;
-
+                res = ResponseResult.getById(responseCode);
             } else {
                 //
                 String current_url = connection.getURL().toString();

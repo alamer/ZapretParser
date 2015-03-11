@@ -1,21 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ru.jeene.zapretparser.models;
 
 /**
+ * Implementation type HttpStatusCode
  *
- * @author ivc_ShherbakovIV
+ * (Only codes 400 to 417 and codes 500 to 524 implemented)
+ *
+ * @see "http://en.wikipedia.org/wiki/List_of_HTTP_status_codes"
  */
-public enum ResponseResult {
-
-    UNKNOWN(-1, "Unknown"),
-    BLOCKED(0, "Blocked"),
-    WORKED(1, "Worked"),
-    UNKNOWN_HOST(2, "Unknown host"),
-    TIMEOUT(3, "Timeout"),
+public enum HttpStatusCode {
+    UNKNOWN(-1,"Unknown"), 
+    BLOCKED(0,"Blocked"), 
+    WORKED(1,"Worked"),  
+    UNKNOWN_HOST(2,"Unknown host") , 
+    TIMEOUT(3,"Timeout") ,     
     CONTINUE(100, "Continue"),
     SWITCHING_PROTOCOL(101, "Switching Protocols"),
     PROCESSING(102, "Processing"),
@@ -76,19 +73,10 @@ public enum ResponseResult {
     private String desc;
     private String text;
 
-    ResponseResult(int code, String desc) {
+    HttpStatusCode(int code, String desc) {
         this.code = code;
         this.desc = desc;
         this.text = Integer.toString(code);
-    }
-
-    public static ResponseResult getById(int id) {
-        for (ResponseResult e : values()) {
-            if (e.getCode() == id) {
-                return e;
-            }
-        }
-        return null;
     }
 
     /**
@@ -117,4 +105,5 @@ public enum ResponseResult {
     public String getDesc() {
         return desc;
     }
+
 }
