@@ -62,35 +62,54 @@
 
     <build>
         <plugins>
+            <plugin> 
+                <groupId>org.apache.maven.plugins</groupId> 
+                <artifactId>maven-dependency-plugin</artifactId> 
+                <configuration> 
+                    <outputDirectory>${project.build.directory}/lib/</outputDirectory> 
+                    <overWriteReleases>false</overWriteReleases> 
+                    <overWriteSnapshots>false</overWriteSnapshots> 
+                    <overWriteIfNewer>true</overWriteIfNewer>
+                </configuration> 
+                <executions> 
+                    <execution> 
+                        <id>copy-dependencies</id> 
+                        <phase>package</phase> 
+                        <goals> 
+                            <goal>copy-dependencies</goal> 
+                        </goals> 
+                    </execution> 
+                </executions> 
+            </plugin>
             <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <configuration>
-                    <archive>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                
+                <configuration>                    
+                    <archive>                        
                         <manifest>
+                            <addClasspath>true</addClasspath>                            
+                            <classpathPrefix>lib/</classpathPrefix>
+                            <classpathLayoutType>simple</classpathLayoutType>
                             <mainClass>ru.jeene.zapretparser.App</mainClass>
                         </manifest>
+                        <manifestEntries>
+                            <Version>${buildNumber}</Version>
+                        </manifestEntries>
                     </archive>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
                 </configuration>
-                <executions>
-                    <execution>
-                        <id>make-assembly</id> <!-- this is used for inheritance merges -->
-                        <phase>package</phase> <!-- bind to the packaging phase -->
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.10.1</version>
-                <configuration>
-          
-                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.kohsuke.args4j</groupId>
@@ -107,6 +126,25 @@
                                 <sourceFile>ru/jeene/zapretparser/App.java</sourceFile>
                             </sourceFiles>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.2-beta-5</version>
+                <configuration>
+                    <descriptors>
+                        <descriptor>src/main/assembly/zip.xml</descriptor>
+                    </descriptors>
+
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id> <!-- this is used for inheritance merges -->
+                        <phase>package</phase> <!-- append to the packaging phase. -->
+                        <goals>
+                            <goal>single</goal> <!-- goals == mojos -->
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
