@@ -33,8 +33,8 @@ public class HTTPCheckController {
         ResponseResult res = ResponseResult.UNKNOWN;
         try {
             HttpURLConnection connection = (HttpURLConnection) new URL(url_string).openConnection();
-            connection.setConnectTimeout(15000);
-            connection.setReadTimeout(15000);
+            connection.setConnectTimeout(5000);
+            connection.setReadTimeout(5000);
             connection.setRequestMethod("HEAD");
             int responseCode = connection.getResponseCode();
 

@@ -65,8 +65,8 @@ public class HTTPSCheckController {
         ResponseResult res = ResponseResult.UNKNOWN;
         try {
             HttpsURLConnection connection = (HttpsURLConnection) openConnection(url_string);
-            connection.setConnectTimeout(15000);
-            connection.setReadTimeout(15000);
+            connection.setConnectTimeout(5000);
+            connection.setReadTimeout(5000);
             int responseCode = connection.getResponseCode();
 
             if (responseCode != 200) {
