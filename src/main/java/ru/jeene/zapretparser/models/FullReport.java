@@ -58,7 +58,7 @@ public class FullReport {
      *
      * @return
      */
-    public String reportCountBytype() {
+    public HashMap<ResponseResult, Integer> reportCountBytype() {
         StringBuilder res = new StringBuilder();
         res.append("Отчет по всем типам ошибок URL\r\n");
         HashMap<ResponseResult, Integer> map = new HashMap<>();
@@ -70,13 +70,13 @@ public class FullReport {
             int current = map.get(r);
             map.put(r, current + 1);
         }
-        for (Map.Entry<ResponseResult, Integer> entry : map.entrySet()) {
+        /*for (Map.Entry<ResponseResult, Integer> entry : map.entrySet()) {
             ResponseResult key = entry.getKey();
             Integer value = entry.getValue();
             res.append(key.getCode()).append("           ").append(key.getDesc()).append("           ").append(value).append("\r\n");
-        }
+        }*/
         //Iterate over all list to find and count
-        return res.toString();
+        return map;
     }
 
 }

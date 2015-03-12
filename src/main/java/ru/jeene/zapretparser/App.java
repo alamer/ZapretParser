@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import ru.jeene.zapretparser.controller.CSVLoadController;
+import ru.jeene.zapretparser.controller.XLSXReportController;
 import ru.jeene.zapretparser.models.FullReport;
 import ru.jeene.zapretparser.models.Model_CSV;
 import ru.jeene.zapretparser.worker.ZapretCheckWorker;
@@ -44,7 +45,9 @@ public class App {
         while (!executor.isTerminated()) {
         }
         System.out.println("Finished all threads");
-        System.out.println(rep.reportCountBytype());
+        //System.out.println(rep.reportCountBytype());
+        XLSXReportController c=new XLSXReportController();
+        c.WriteReport(rep);
     }
 
     public static void main(String[] args) {
