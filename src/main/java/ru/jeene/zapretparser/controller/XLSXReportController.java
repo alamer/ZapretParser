@@ -36,6 +36,7 @@ import ru.jeene.zapretparser.utils.StringUtils;
  * @author ivc_ShherbakovIV
  */
 public class XLSXReportController {
+    private static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(XLSXReportController.class);
 
     private static String shab_name = "full_report.xlsx";
     private static String report_name = "full_report_!dt!.xlsx";
@@ -225,10 +226,11 @@ public class XLSXReportController {
             String tmp_out = StringUtils.replaceAll(report_name, "!dt!", DateUtils.DateToString(new Date(System.currentTimeMillis()), "ddMMyyyy_Hms"));
             try (FileOutputStream out = new FileOutputStream(tmp_out)) {
                 wb.write(out);
+                logger.info("Report file "+tmp_out+" created");
             }
 
         } catch (Exception ex) {
-            System.err.println(ex);
+            logger.error(ex);
         }
     }
 

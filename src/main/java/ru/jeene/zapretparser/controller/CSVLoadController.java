@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
+import ru.jeene.zapretparser.App;
 import ru.jeene.zapretparser.models.Model_CSV;
 import ru.jeene.zapretparser.utils.FileUtils;
 import ru.jeene.zapretparser.utils.HTTPUtils;
@@ -32,6 +33,7 @@ import ru.jeene.zapretparser.utils.HTTPUtils;
  * @author ivc_ShherbakovIV
  */
 public class CSVLoadController {
+    private static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(CSVLoadController.class);
 
     public String loadfile() {
         //return FileUtils.readPage("D:/dump.csv");
@@ -40,11 +42,11 @@ public class CSVLoadController {
             return c.getContent("https://raw.githubusercontent.com:443/zapret-info/z-i/master/dump.csv");
 //ldPage("raw.githubusercontent.com", 443, "/zapret-info/z-i/master/dump.csv");
         } catch (KeyManagementException ex) {
-            Logger.getLogger(CSVLoadController.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex);
         } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(CSVLoadController.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex);
         } catch (IOException ex) {
-            Logger.getLogger(CSVLoadController.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex);
         }
         return "";
     }
@@ -60,7 +62,7 @@ public class CSVLoadController {
                 // match end: regexMatcher.end()
             }
         } catch (PatternSyntaxException ex) {
-            // Syntax error in the regular expression
+            logger.error(ex);
         }
         return "";
 
@@ -92,9 +94,9 @@ public class CSVLoadController {
 
                 //System.out.println(m.getOrg());
             }
-            System.out.println("Считано строк: " + res.size());
+            logger.info("Number of lines in CSV: " + res.size());
         } catch (PatternSyntaxException ex) {
-            // Syntax error in the regular expression
+            logger.error(ex);
         }
         return res;
     }

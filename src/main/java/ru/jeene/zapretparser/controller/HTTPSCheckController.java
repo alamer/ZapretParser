@@ -43,6 +43,8 @@ import ru.jeene.zapretparser.models.ResponseResult;
  */
 public class HTTPSCheckController {
 
+    private static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(HTTPCheckController.class);
+
     public String getContent(String url_string) throws KeyManagementException, NoSuchAlgorithmException, MalformedURLException, IOException {
         HttpsURLConnection con = (HttpsURLConnection) openConnection(url_string);
         StringBuilder b = new StringBuilder();
@@ -90,12 +92,12 @@ public class HTTPSCheckController {
         } catch (ProtocolException ex) {
             res = ResponseResult.PROTOCOL_EXCEPTION;
         } catch (KeyManagementException ex) {
-            Logger.getLogger(HTTPSCheckController.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex);
         } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(HTTPSCheckController.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex);
         } catch (Exception ex) {
             res = ResponseResult.UNKNOWN;
-            System.err.println(ex);
+            logger.error(ex);
         }
         return res;
     }

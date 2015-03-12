@@ -19,6 +19,8 @@ import ru.jeene.zapretparser.models.ResponseResult;
  */
 public class URLCheckController {
 
+    private static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(URLCheckController.class);
+
     public ResponseResult checkUrl(String url) {
         ResponseResult res = ResponseResult.UNKNOWN;
         if (url.contains("https://")) {

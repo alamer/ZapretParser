@@ -26,6 +26,7 @@ import ru.jeene.zapretparser.models.ResponseResult;
  * @author ivc_ShherbakovIV
  */
 public class HTTPCheckController {
+    private static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(HTTPCheckController.class);
 
     public ResponseResult checkUrl(String url_string) {
         ResponseResult res = ResponseResult.UNKNOWN;
@@ -59,6 +60,7 @@ public class HTTPCheckController {
         }
         catch (Exception ex) {
             res=ResponseResult.UNKNOWN;
+            logger.error(ex);
         }
         return res;
     }

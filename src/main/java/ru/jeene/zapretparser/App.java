@@ -27,15 +27,25 @@ import ru.jeene.zapretparser.worker.ZapretCheckWorker;
 public class App {
 
     private static App app;
+    private static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(App.class);
+    private final int THREAD_NUMBER = 10;
 
     public App() {
+        logger.info("Loading CSV file....");
         CSVLoadController loader = new CSVLoadController();
+        logger.info("Complete....");
         String f = loader.loadfile();
-
+        logger.info("Parsing CSV....");
         ArrayList<Model_CSV> list = loader.parseCSV(f);
+        logger.info("CSV file number of urls: " + list.size());
+        logger.info("Complete....");
         String timestamp_csv = loader.timestapFromCSV(f);
+        logger.info("CSV file date: " + timestamp_csv);
         FullReport rep = new FullReport();
-        ExecutorService executor = Executors.newFixedThreadPool(10);
+
+        logger.info("Thread number: " + THREAD_NUMBER);
+        ExecutorService executor = Executors.newFixedThreadPool(THREAD_NUMBER);
+        logger.info("Working....");
         for (Model_CSV stroka : list) {
             Runnable worker = new ZapretCheckWorker(stroka, rep);
             executor.execute(worker);
@@ -47,10 +57,12 @@ public class App {
         executor.shutdown();
         while (!executor.isTerminated()) {
         }
-        System.out.println("Finished all threads");
+        logger.info("Finished all threads");
         //System.out.println(rep.reportCountBytype());
         XLSXReportController c = new XLSXReportController();
-        c.WriteReport(rep,timestamp_csv);
+        logger.info("Generating reports...");
+        c.WriteReport(rep, timestamp_csv);
+        logger.info("Complete....");
     }
 
     public static void main(String[] args) {

@@ -23,6 +23,8 @@ import ru.jeene.zapretparser.models.ResponseResult;
  */
 public class ZapretCheckWorker implements Runnable {
 
+    private static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(ZapretCheckWorker.class);
+
     private Model_CSV command;
     private FullReport rep;
 
@@ -47,12 +49,11 @@ public class ZapretCheckWorker implements Runnable {
             m.setResult(tmp);
             m.setElement(command);
             rep.putReport(m);
-            System.out.println(command + " " + tmp.getDesc());
+            logger.info(command + " " + tmp.getDesc());
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ex) {
+            logger.error(ex);
         }
     }
-
 
 }
