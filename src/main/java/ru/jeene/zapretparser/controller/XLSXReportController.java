@@ -38,8 +38,8 @@ public class XLSXReportController {
     private static String shab_name = "full_report.xlsx";
     private static String report_name = "full_report_!dt!.xlsx";
     private final String MAIN_ZAG_TEMPL = "Отчет по блокировке URL ДСИ согласно Росреестру  CSV на ";
-    private final int t1_start = 2;
-    private final int t0_start = 2;
+    private final int t1_start = 3;
+    private final int t0_start = 3;
 
     public void WriteReport(FullReport rep,String timestamp_csv) {
         try (FileInputStream inp = new FileInputStream(shab_name)) {
