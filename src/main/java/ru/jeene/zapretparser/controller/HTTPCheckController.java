@@ -26,12 +26,15 @@ import ru.jeene.zapretparser.models.ResponseResult;
  * @author ivc_ShherbakovIV
  */
 public class HTTPCheckController {
+
     private static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(HTTPCheckController.class);
 
     public ResponseResult checkUrl(String url_string) {
         ResponseResult res = ResponseResult.UNKNOWN;
         try {
             HttpURLConnection connection = (HttpURLConnection) new URL(url_string).openConnection();
+            connection.setConnectTimeout(15000);
+            connection.setReadTimeout(15000);
             connection.setRequestMethod("HEAD");
             int responseCode = connection.getResponseCode();
 
@@ -50,16 +53,12 @@ public class HTTPCheckController {
             res = ResponseResult.UNKNOWN_HOST;
         } catch (SocketTimeoutException | ConnectException ex) {
             res = ResponseResult.TIMEOUT;
-        } catch(SocketException ex)
-        {
-            res=ResponseResult.SOCKET_EXCEPTION;
-        }
-         catch(ProtocolException ex)
-        {
-            res=ResponseResult.PROTOCOL_EXCEPTION;
-        }
-        catch (Exception ex) {
-            res=ResponseResult.UNKNOWN;
+        } catch (SocketException ex) {
+            res = ResponseResult.SOCKET_EXCEPTION;
+        } catch (ProtocolException ex) {
+            res = ResponseResult.PROTOCOL_EXCEPTION;
+        } catch (Exception ex) {
+            res = ResponseResult.UNKNOWN;
             logger.error(ex);
         }
         return res;
