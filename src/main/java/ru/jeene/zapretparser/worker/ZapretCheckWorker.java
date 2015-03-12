@@ -49,9 +49,10 @@ public class ZapretCheckWorker implements Runnable {
             m.setResult(tmp);
             m.setElement(command);
             rep.putReport(m);
-            logger.info(command + " " + tmp.getDesc());
+            //logger.info(command + " " + tmp.getDesc());
 
         } catch (Exception ex) {
+            logger.error(command);
             logger.error(ex);
         }
     }
