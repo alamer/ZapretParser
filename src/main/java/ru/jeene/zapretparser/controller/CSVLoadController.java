@@ -33,7 +33,7 @@ import ru.jeene.zapretparser.utils.HTTPUtils;
  */
 public class CSVLoadController {
 
-    private String loadfile() {
+    public String loadfile() {
         //return FileUtils.readPage("D:/dump.csv");
         HTTPSCheckController c = new HTTPSCheckController();
         try {
@@ -49,8 +49,25 @@ public class CSVLoadController {
         return "";
     }
 
-    public ArrayList<Model_CSV> parseCSV() {
-        String file = loadfile();
+    public String timestapFromCSV(String csv) {
+        try {
+            Pattern regex = Pattern.compile("^Updated: (\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2})", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE | Pattern.MULTILINE);
+            Matcher regexMatcher = regex.matcher(csv);
+            if (regexMatcher.find()) {
+                return regexMatcher.group();
+                // matched text: regexMatcher.group()
+                // match start: regexMatcher.start()
+                // match end: regexMatcher.end()
+            }
+        } catch (PatternSyntaxException ex) {
+            // Syntax error in the regular expression
+        }
+        return "";
+
+    }
+
+    public ArrayList<Model_CSV> parseCSV(String file) {
+        //String file = loadfile();
         ArrayList<Model_CSV> res = new ArrayList<>();
         res.clear();
         try {

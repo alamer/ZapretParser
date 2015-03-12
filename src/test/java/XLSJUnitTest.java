@@ -43,10 +43,4 @@ public class XLSJUnitTest {
     //
     // @Test
     // public void hello() {}
-    @Test
-    public void emptyfile_generate() {
-        XLSXReportController c=new XLSXReportController();
-        FullReport rep=new FullReport();
-        c.WriteReport(rep);
-    }
 }

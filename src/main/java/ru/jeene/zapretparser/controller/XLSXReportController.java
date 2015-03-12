@@ -37,11 +37,11 @@ public class XLSXReportController {
 
     private static String shab_name = "full_report.xlsx";
     private static String report_name = "full_report_!dt!.xlsx";
-    private final String MAIN_ZAG_TEMPL = "Отчет по блокировке URL ДСИ согласно Росреестру  на ";
+    private final String MAIN_ZAG_TEMPL = "Отчет по блокировке URL ДСИ согласно Росреестру  CSV на ";
     private final int t1_start = 2;
     private final int t0_start = 2;
 
-    public void WriteReport(FullReport rep) {
+    public void WriteReport(FullReport rep,String timestamp_csv) {
         try (FileInputStream inp = new FileInputStream(shab_name)) {
             XSSFWorkbook wb = new XSSFWorkbook(inp); // Declare XSSF WorkBook
             XSSFSheet sheet = wb.getSheetAt(1);
@@ -143,7 +143,7 @@ public class XLSXReportController {
             row = sheet.getRow(0);
             cell = row.getCell(0);
             cell.setCellType(XSSFCell.CELL_TYPE_STRING);
-            cell.setCellValue(MAIN_ZAG_TEMPL + DateUtils.DateToString(new Date(System.currentTimeMillis()), "dd.MM.yyyy") + "г.");
+            cell.setCellValue(MAIN_ZAG_TEMPL + timestamp_csv);
 
             //Считаем отчет по ошибкам
             HashMap<ResponseResult, Integer> map = rep.reportCountBytype();
@@ -209,10 +209,10 @@ public class XLSXReportController {
             row = sheet.getRow(0);
             cell = row.getCell(0);
             cell.setCellType(XSSFCell.CELL_TYPE_STRING);
-            cell.setCellValue(MAIN_ZAG_TEMPL + DateUtils.DateToString(new Date(System.currentTimeMillis()), "dd.MM.yyyy") + "г.");
+            cell.setCellValue(MAIN_ZAG_TEMPL + timestamp_csv);
 
             //Сохраняем файл
-            String tmp_out = StringUtils.replaceAll(report_name, "!dt!", DateUtils.DateToString(new Date(System.currentTimeMillis()), "ddMMyyyy"));
+            String tmp_out = StringUtils.replaceAll(report_name, "!dt!", DateUtils.DateToString(new Date(System.currentTimeMillis()), "ddMMyyyy_Hms"));
             try (FileOutputStream out = new FileOutputStream(tmp_out)) {
                 wb.write(out);
             }

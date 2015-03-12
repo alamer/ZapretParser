@@ -30,24 +30,27 @@ public class App {
 
     public App() {
         CSVLoadController loader = new CSVLoadController();
-        ArrayList<Model_CSV> list = loader.parseCSV();
-        FullReport rep=new FullReport();
+        String f = loader.loadfile();
+
+        ArrayList<Model_CSV> list = loader.parseCSV(f);
+        String timestamp_csv = loader.timestapFromCSV(f);
+        FullReport rep = new FullReport();
         ExecutorService executor = Executors.newFixedThreadPool(10);
         for (Model_CSV stroka : list) {
-            Runnable worker = new ZapretCheckWorker(stroka,rep);
+            Runnable worker = new ZapretCheckWorker(stroka, rep);
             executor.execute(worker);
         }
         /*for (int i = 0; i < 10; i++) {
-            Runnable worker = new ZapretCheckWorker("" + i);
-            executor.execute(worker);
-        }*/
+         Runnable worker = new ZapretCheckWorker("" + i);
+         executor.execute(worker);
+         }*/
         executor.shutdown();
         while (!executor.isTerminated()) {
         }
         System.out.println("Finished all threads");
         //System.out.println(rep.reportCountBytype());
-        XLSXReportController c=new XLSXReportController();
-        c.WriteReport(rep);
+        XLSXReportController c = new XLSXReportController();
+        c.WriteReport(rep,timestamp_csv);
     }
 
     public static void main(String[] args) {
