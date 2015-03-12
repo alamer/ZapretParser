@@ -47,7 +47,7 @@ public class XLSXReportController {
     public void WriteReport(FullReport rep, String timestamp_csv) {
         try (FileInputStream inp = new FileInputStream(shab_name)) {
             XSSFWorkbook wb = new XSSFWorkbook(inp); // Declare XSSF WorkBook
-            XSSFSheet sheet = wb.getSheetAt(1);
+            XSSFSheet sheet = wb.getSheet("Детальный отчет");
             XSSFCellStyle cs1 = wb.createCellStyle();
             //cs1.setFillPattern(XSSFCellStyle.SOLID_FOREGROUND);
             cs1.setBorderBottom(XSSFCellStyle.BORDER_THIN);
@@ -152,7 +152,7 @@ public class XLSXReportController {
             HashMap<ResponseResult, Model_NumberReport> map = rep.reportCountBytype();
 
             //Выбираем первый лист
-            sheet = wb.getSheetAt(0);
+            sheet = wb.getSheet("Итог");
 
             //Пишем итоговый отчет
             cnt = 0;
