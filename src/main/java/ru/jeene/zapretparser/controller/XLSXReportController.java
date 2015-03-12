@@ -36,6 +36,7 @@ import ru.jeene.zapretparser.utils.StringUtils;
  * @author ivc_ShherbakovIV
  */
 public class XLSXReportController {
+
     private static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(XLSXReportController.class);
 
     private static String shab_name = "full_report.xlsx";
@@ -166,14 +167,14 @@ public class XLSXReportController {
                     row = sheet.createRow(t0_start - 1 + cnt);
                 }
                 /*//Результат
-                cell = row.getCell(cnt_cell);
-                if (cell == null) {
-                    cell = row.createCell(cnt_cell);
-                }
-                cell.setCellType(XSSFCell.CELL_TYPE_STRING);
-                cell.setCellValue(key.name());
-                cell.setCellStyle(cs1);
-                cnt_cell++;*/
+                 cell = row.getCell(cnt_cell);
+                 if (cell == null) {
+                 cell = row.createCell(cnt_cell);
+                 }
+                 cell.setCellType(XSSFCell.CELL_TYPE_STRING);
+                 cell.setCellValue(key.name());
+                 cell.setCellStyle(cs1);
+                 cnt_cell++;*/
 
                 //Результат (описание)
                 cell = row.getCell(cnt_cell);
@@ -186,15 +187,158 @@ public class XLSXReportController {
                 cnt_cell++;
 
                 /*//Результат (код)
+                 cell = row.getCell(cnt_cell);
+                 if (cell == null) {
+                 cell = row.createCell(cnt_cell);
+                 }
+                 cell.setCellType(XSSFCell.CELL_TYPE_NUMERIC);
+                 cell.setCellValue(key.getCode());
+                 cell.setCellStyle(cs1);
+                 cnt_cell++;*/
+                //Результат (количество)
                 cell = row.getCell(cnt_cell);
                 if (cell == null) {
                     cell = row.createCell(cnt_cell);
                 }
                 cell.setCellType(XSSFCell.CELL_TYPE_NUMERIC);
-                cell.setCellValue(key.getCode());
+                cell.setCellValue(value.getNumber());
                 cell.setCellStyle(cs1);
-                cnt_cell++;*/
+                cnt_cell++;
+                //Результат (процент)
+                cell = row.getCell(cnt_cell);
+                if (cell == null) {
+                    cell = row.createCell(cnt_cell);
+                }
+                cell.setCellType(XSSFCell.CELL_TYPE_STRING);
+                cell.setCellValue(FormatUtils.FormatDoubleD(value.getPercent()));
+                cell.setCellStyle(cs1);
+                cnt_cell++;
+                cnt++;
+            }
 
+            //Пишем заголовок
+            row = sheet.getRow(0);
+            cell = row.getCell(0);
+            cell.setCellType(XSSFCell.CELL_TYPE_STRING);
+            cell.setCellValue(MAIN_ZAG_TEMPL + timestamp_csv);
+
+            //Считаем отчет по ошибкам HTTP
+            map = rep.reportCountBytypeHTTP();
+            //Выбираем первый лист
+            sheet = wb.getSheet("Итог HTTP");
+
+            //Пишем итоговый отчет
+            cnt = 0;
+            for (Map.Entry<ResponseResult, Model_NumberReport> entry : map.entrySet()) {
+                ResponseResult key = entry.getKey();
+                Model_NumberReport value = entry.getValue();
+
+                int cnt_cell = 0;
+                row = sheet.getRow(t0_start - 1 + cnt);
+                if (row == null) {
+                    row = sheet.createRow(t0_start - 1 + cnt);
+                }
+                /*//Результат
+                 cell = row.getCell(cnt_cell);
+                 if (cell == null) {
+                 cell = row.createCell(cnt_cell);
+                 }
+                 cell.setCellType(XSSFCell.CELL_TYPE_STRING);
+                 cell.setCellValue(key.name());
+                 cell.setCellStyle(cs1);
+                 cnt_cell++;*/
+
+                //Результат (описание)
+                cell = row.getCell(cnt_cell);
+                if (cell == null) {
+                    cell = row.createCell(cnt_cell);
+                }
+                cell.setCellType(XSSFCell.CELL_TYPE_STRING);
+                cell.setCellValue(key.getDesc());
+                cell.setCellStyle(cs1);
+                cnt_cell++;
+
+                /*//Результат (код)
+                 cell = row.getCell(cnt_cell);
+                 if (cell == null) {
+                 cell = row.createCell(cnt_cell);
+                 }
+                 cell.setCellType(XSSFCell.CELL_TYPE_NUMERIC);
+                 cell.setCellValue(key.getCode());
+                 cell.setCellStyle(cs1);
+                 cnt_cell++;*/
+                //Результат (количество)
+                cell = row.getCell(cnt_cell);
+                if (cell == null) {
+                    cell = row.createCell(cnt_cell);
+                }
+                cell.setCellType(XSSFCell.CELL_TYPE_NUMERIC);
+                cell.setCellValue(value.getNumber());
+                cell.setCellStyle(cs1);
+                cnt_cell++;
+                //Результат (процент)
+                cell = row.getCell(cnt_cell);
+                if (cell == null) {
+                    cell = row.createCell(cnt_cell);
+                }
+                cell.setCellType(XSSFCell.CELL_TYPE_STRING);
+                cell.setCellValue(FormatUtils.FormatDoubleD(value.getPercent()));
+                cell.setCellStyle(cs1);
+                cnt_cell++;
+                cnt++;
+            }
+
+            //Пишем заголовок
+            row = sheet.getRow(0);
+            cell = row.getCell(0);
+            cell.setCellType(XSSFCell.CELL_TYPE_STRING);
+            cell.setCellValue(MAIN_ZAG_TEMPL + timestamp_csv);
+
+            //Считаем отчет по ошибкам HTTPS
+            map = rep.reportCountBytypeHTTPS();
+            //Выбираем первый лист
+            sheet = wb.getSheet("Итог HTTPS");
+
+            //Пишем итоговый отчет
+            cnt = 0;
+            for (Map.Entry<ResponseResult, Model_NumberReport> entry : map.entrySet()) {
+                ResponseResult key = entry.getKey();
+                Model_NumberReport value = entry.getValue();
+
+                int cnt_cell = 0;
+                row = sheet.getRow(t0_start - 1 + cnt);
+                if (row == null) {
+                    row = sheet.createRow(t0_start - 1 + cnt);
+                }
+                /*//Результат
+                 cell = row.getCell(cnt_cell);
+                 if (cell == null) {
+                 cell = row.createCell(cnt_cell);
+                 }
+                 cell.setCellType(XSSFCell.CELL_TYPE_STRING);
+                 cell.setCellValue(key.name());
+                 cell.setCellStyle(cs1);
+                 cnt_cell++;*/
+
+                //Результат (описание)
+                cell = row.getCell(cnt_cell);
+                if (cell == null) {
+                    cell = row.createCell(cnt_cell);
+                }
+                cell.setCellType(XSSFCell.CELL_TYPE_STRING);
+                cell.setCellValue(key.getDesc());
+                cell.setCellStyle(cs1);
+                cnt_cell++;
+
+                /*//Результат (код)
+                 cell = row.getCell(cnt_cell);
+                 if (cell == null) {
+                 cell = row.createCell(cnt_cell);
+                 }
+                 cell.setCellType(XSSFCell.CELL_TYPE_NUMERIC);
+                 cell.setCellValue(key.getCode());
+                 cell.setCellStyle(cs1);
+                 cnt_cell++;*/
                 //Результат (количество)
                 cell = row.getCell(cnt_cell);
                 if (cell == null) {
@@ -226,7 +370,7 @@ public class XLSXReportController {
             String tmp_out = StringUtils.replaceAll(report_name, "!dt!", DateUtils.DateToString(new Date(System.currentTimeMillis()), "ddMMyyyy_Hms"));
             try (FileOutputStream out = new FileOutputStream(tmp_out)) {
                 wb.write(out);
-                logger.info("Report file "+tmp_out+" created");
+                logger.info("Report file " + tmp_out + " created");
             }
 
         } catch (Exception ex) {

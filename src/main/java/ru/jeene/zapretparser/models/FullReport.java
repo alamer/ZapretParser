@@ -83,4 +83,70 @@ public class FullReport {
         return map;
     }
 
+    /**
+     * Отчет по всем типам ошибок HTTP (количество)
+     *
+     * @return
+     */
+    public HashMap<ResponseResult, Model_NumberReport> reportCountBytypeHTTP() {
+        StringBuilder res = new StringBuilder();
+        res.append("Отчет по всем типам ошибок URL\r\n");
+        HashMap<ResponseResult, Model_NumberReport> map = new HashMap<>();
+        for (Model_FullReport model_FullReport : list) {
+            if (model_FullReport.getElement().getUrl().contains("http://")) {
+                ResponseResult r = model_FullReport.getResult();
+                if (map.get(r) == null) {
+                    Model_NumberReport nr = new Model_NumberReport();
+                    nr.setNumber(0);
+                    nr.setPercent(0);
+                    map.put(r, nr);
+                }
+                Model_NumberReport nr_current = map.get(r);
+                nr_current.addNumber(list.size());
+                map.put(r, nr_current);
+            }
+        }
+
+        /*for (Map.Entry<ResponseResult, Integer> entry : map.entrySet()) {
+         ResponseResult key = entry.getKey();
+         Integer value = entry.getValue();
+         res.append(key.getCode()).append("           ").append(key.getDesc()).append("           ").append(value).append("\r\n");
+         }*/
+        //Iterate over all list to find and count
+        return map;
+    }
+
+    /**
+     * Отчет по всем типам ошибок HTTPS (количество)
+     *
+     * @return
+     */
+    public HashMap<ResponseResult, Model_NumberReport> reportCountBytypeHTTPS() {
+        StringBuilder res = new StringBuilder();
+        res.append("Отчет по всем типам ошибок URL\r\n");
+        HashMap<ResponseResult, Model_NumberReport> map = new HashMap<>();
+        for (Model_FullReport model_FullReport : list) {
+            if (model_FullReport.getElement().getUrl().contains("https://")) {
+                ResponseResult r = model_FullReport.getResult();
+                if (map.get(r) == null) {
+                    Model_NumberReport nr = new Model_NumberReport();
+                    nr.setNumber(0);
+                    nr.setPercent(0);
+                    map.put(r, nr);
+                }
+                Model_NumberReport nr_current = map.get(r);
+                nr_current.addNumber(list.size());
+                map.put(r, nr_current);
+            }
+        }
+
+        /*for (Map.Entry<ResponseResult, Integer> entry : map.entrySet()) {
+         ResponseResult key = entry.getKey();
+         Integer value = entry.getValue();
+         res.append(key.getCode()).append("           ").append(key.getDesc()).append("           ").append(value).append("\r\n");
+         }*/
+        //Iterate over all list to find and count
+        return map;
+    }
+
 }
