@@ -33,8 +33,8 @@ public class App {
 
     private static App app;
     private static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(App.class);
-    @Option(name = "-t")        // no usage
-    private  int THREAD_NUMBER = 10;
+    @Option(name = "-t", usage = "Sets number of threads")        // no usage
+    private int THREAD_NUMBER = 10;
 
     public App(String[] args) {
         CmdLineParser parser = new CmdLineParser(this);
@@ -68,6 +68,9 @@ public class App {
          }*/
         executor.shutdown();
         while (!executor.isTerminated()) {
+            System.out.print("\rThinking... " + rep.getList().size() +" of "+list.size());
+            System.out.flush();
+
         }
         logger.info("Finished all threads");
         //System.out.println(rep.reportCountBytype());
