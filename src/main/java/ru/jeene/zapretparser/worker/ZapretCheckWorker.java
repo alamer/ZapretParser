@@ -22,15 +22,19 @@ import ru.jeene.zapretparser.models.ResponseResult;
  * @author ivc_ShherbakovIV
  */
 public class ZapretCheckWorker implements Runnable {
+    int connect;
+    int read;
 
     private static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(ZapretCheckWorker.class);
 
     private Model_CSV command;
     private FullReport rep;
 
-    public ZapretCheckWorker(Model_CSV s, FullReport rep) {
+    public ZapretCheckWorker(Model_CSV s, FullReport rep,int connect, int read) {        
         this.command = s;
         this.rep = rep;
+        this.connect=connect;
+        this.read=read;
     }
 
     @Override
@@ -44,7 +48,7 @@ public class ZapretCheckWorker implements Runnable {
         try {
             //Thread.sleep(500);
             URLCheckController controller = new URLCheckController();
-            ResponseResult tmp = controller.checkUrl(command.getUrl());
+            ResponseResult tmp = controller.checkUrl(command.getUrl(),connect,read);
             Model_FullReport m = new Model_FullReport();
             m.setResult(tmp);
             m.setElement(command);

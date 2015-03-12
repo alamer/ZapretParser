@@ -21,13 +21,13 @@ public class URLCheckController {
 
     private static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(URLCheckController.class);
 
-    public ResponseResult checkUrl(String url) {
+    public ResponseResult checkUrl(String url,int connect,int read) {
         ResponseResult res = ResponseResult.UNKNOWN;
         if (url.contains("https://")) {
-            HTTPSCheckController c = new HTTPSCheckController();
+            HTTPSCheckController c = new HTTPSCheckController(connect,read);
             return c.checkUrl(url);
         } else {
-            HTTPCheckController c = new HTTPCheckController();
+            HTTPCheckController c = new HTTPCheckController(connect,read);
 
             return c.checkUrl(url);
 

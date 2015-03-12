@@ -28,13 +28,22 @@ import ru.jeene.zapretparser.models.ResponseResult;
 public class HTTPCheckController {
 
     private static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(HTTPCheckController.class);
+    int connect;
+    int read;
+
+    public HTTPCheckController(int connect, int read) {
+        this.connect = connect;
+        this.read = read;
+    }
+    
+    
 
     public ResponseResult checkUrl(String url_string) {
         ResponseResult res = ResponseResult.UNKNOWN;
         try {
             HttpURLConnection connection = (HttpURLConnection) new URL(url_string).openConnection();
-            connection.setConnectTimeout(5000);
-            connection.setReadTimeout(5000);
+            connection.setConnectTimeout(connect);
+            connection.setReadTimeout(read);
             connection.setRequestMethod("HEAD");
             int responseCode = connection.getResponseCode();
 

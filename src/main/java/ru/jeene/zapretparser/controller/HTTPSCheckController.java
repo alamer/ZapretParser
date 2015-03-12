@@ -45,6 +45,17 @@ public class HTTPSCheckController {
 
     private static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(HTTPCheckController.class);
 
+    int connect;
+    int read;
+
+    public HTTPSCheckController() {
+    }
+
+    public HTTPSCheckController(int connect, int read) {
+        this.connect = connect;
+        this.read = read;
+    }
+
     public String getContent(String url_string) throws KeyManagementException, NoSuchAlgorithmException, MalformedURLException, IOException {
         HttpsURLConnection con = (HttpsURLConnection) openConnection(url_string);
         StringBuilder b = new StringBuilder();
@@ -65,8 +76,8 @@ public class HTTPSCheckController {
         ResponseResult res = ResponseResult.UNKNOWN;
         try {
             HttpsURLConnection connection = (HttpsURLConnection) openConnection(url_string);
-            connection.setConnectTimeout(5000);
-            connection.setReadTimeout(5000);
+            connection.setConnectTimeout(connect);
+            connection.setReadTimeout(read);
             int responseCode = connection.getResponseCode();
 
             if (responseCode != 200) {

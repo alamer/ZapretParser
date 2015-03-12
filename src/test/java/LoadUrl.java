@@ -80,7 +80,7 @@ public class LoadUrl {
      }*/
     @Test
     public void hello2() {
-        HTTPCheckController c = new HTTPCheckController();
+        HTTPCheckController c = new HTTPCheckController(3000,3000);
         System.out.println(c.checkUrl("http://akkoid.sakura.ne.jp/201406/14c/19.jpg"));
     }
 }

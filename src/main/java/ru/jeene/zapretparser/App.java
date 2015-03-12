@@ -36,6 +36,11 @@ public class App {
     @Option(name = "-t", usage = "Sets number of threads")        // no usage
     private int THREAD_NUMBER = 10;
 
+    @Option(name = "-connect", usage = "Ms to connect")        // no usage
+    private int TIMEOUT_CONNECT = 3000;
+    @Option(name = "-read", usage = "Ms to read")        // no usage
+    private int TIMEOUT_READ = 3000;
+
     public App(String[] args) {
         CmdLineParser parser = new CmdLineParser(this);
         try {
@@ -59,7 +64,7 @@ public class App {
         ExecutorService executor = Executors.newFixedThreadPool(THREAD_NUMBER);
         logger.info("Working....");
         for (Model_CSV stroka : list) {
-            Runnable worker = new ZapretCheckWorker(stroka, rep);
+            Runnable worker = new ZapretCheckWorker(stroka, rep,TIMEOUT_CONNECT,TIMEOUT_READ);
             executor.execute(worker);
         }
         /*for (int i = 0; i < 10; i++) {
@@ -68,7 +73,7 @@ public class App {
          }*/
         executor.shutdown();
         while (!executor.isTerminated()) {
-            System.out.print("\rThinking... " + rep.getList().size() +" of "+list.size());
+            System.out.print("\rThinking... " + rep.getList().size() + " of " + list.size());
             System.out.flush();
 
         }
