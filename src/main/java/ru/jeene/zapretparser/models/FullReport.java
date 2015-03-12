@@ -58,23 +58,27 @@ public class FullReport {
      *
      * @return
      */
-    public HashMap<ResponseResult, Integer> reportCountBytype() {
+    public HashMap<ResponseResult, Model_NumberReport> reportCountBytype() {
         StringBuilder res = new StringBuilder();
         res.append("Отчет по всем типам ошибок URL\r\n");
-        HashMap<ResponseResult, Integer> map = new HashMap<>();
+        HashMap<ResponseResult, Model_NumberReport> map = new HashMap<>();
         for (Model_FullReport model_FullReport : list) {
-            ResponseResult r = model_FullReport.getResult();            
+            ResponseResult r = model_FullReport.getResult();
             if (map.get(r) == null) {
-                map.put(r, 0);
+                Model_NumberReport nr = new Model_NumberReport();
+                nr.setNumber(0);
+                nr.setPercent(0);
+                map.put(r, nr);
             }
-            int current = map.get(r);
-            map.put(r, current + 1);
+            Model_NumberReport nr_current = map.get(r);
+            nr_current.addNumber(list.size());
+            map.put(r, nr_current);
         }
         /*for (Map.Entry<ResponseResult, Integer> entry : map.entrySet()) {
-            ResponseResult key = entry.getKey();
-            Integer value = entry.getValue();
-            res.append(key.getCode()).append("           ").append(key.getDesc()).append("           ").append(value).append("\r\n");
-        }*/
+         ResponseResult key = entry.getKey();
+         Integer value = entry.getValue();
+         res.append(key.getCode()).append("           ").append(key.getDesc()).append("           ").append(value).append("\r\n");
+         }*/
         //Iterate over all list to find and count
         return map;
     }

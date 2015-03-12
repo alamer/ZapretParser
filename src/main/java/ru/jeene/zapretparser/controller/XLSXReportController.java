@@ -25,8 +25,10 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import ru.jeene.zapretparser.models.FullReport;
 import ru.jeene.zapretparser.models.Model_FullReport;
+import ru.jeene.zapretparser.models.Model_NumberReport;
 import ru.jeene.zapretparser.models.ResponseResult;
 import ru.jeene.zapretparser.utils.DateUtils;
+import ru.jeene.zapretparser.utils.FormatUtils;
 import ru.jeene.zapretparser.utils.StringUtils;
 
 /**
@@ -41,7 +43,7 @@ public class XLSXReportController {
     private final int t1_start = 3;
     private final int t0_start = 3;
 
-    public void WriteReport(FullReport rep,String timestamp_csv) {
+    public void WriteReport(FullReport rep, String timestamp_csv) {
         try (FileInputStream inp = new FileInputStream(shab_name)) {
             XSSFWorkbook wb = new XSSFWorkbook(inp); // Declare XSSF WorkBook
             XSSFSheet sheet = wb.getSheetAt(1);
@@ -146,16 +148,16 @@ public class XLSXReportController {
             cell.setCellValue(MAIN_ZAG_TEMPL + timestamp_csv);
 
             //Считаем отчет по ошибкам
-            HashMap<ResponseResult, Integer> map = rep.reportCountBytype();
+            HashMap<ResponseResult, Model_NumberReport> map = rep.reportCountBytype();
 
             //Выбираем первый лист
             sheet = wb.getSheetAt(0);
 
             //Пишем итоговый отчет
             cnt = 0;
-            for (Map.Entry<ResponseResult, Integer> entry : map.entrySet()) {
+            for (Map.Entry<ResponseResult, Model_NumberReport> entry : map.entrySet()) {
                 ResponseResult key = entry.getKey();
-                Integer value = entry.getValue();
+                Model_NumberReport value = entry.getValue();
 
                 int cnt_cell = 0;
                 row = sheet.getRow(t0_start - 1 + cnt);
@@ -198,10 +200,18 @@ public class XLSXReportController {
                     cell = row.createCell(cnt_cell);
                 }
                 cell.setCellType(XSSFCell.CELL_TYPE_NUMERIC);
-                cell.setCellValue(value);
+                cell.setCellValue(value.getNumber());
                 cell.setCellStyle(cs1);
                 cnt_cell++;
-
+                //Результат (процент)
+                cell = row.getCell(cnt_cell);
+                if (cell == null) {
+                    cell = row.createCell(cnt_cell);
+                }
+                cell.setCellType(XSSFCell.CELL_TYPE_STRING);
+                cell.setCellValue(FormatUtils.FormatDoubleD(value.getPercent()));
+                cell.setCellStyle(cs1);
+                cnt_cell++;
                 cnt++;
             }
 

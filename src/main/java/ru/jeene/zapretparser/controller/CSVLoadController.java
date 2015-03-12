@@ -54,7 +54,7 @@ public class CSVLoadController {
             Pattern regex = Pattern.compile("^Updated: (\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2})", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE | Pattern.MULTILINE);
             Matcher regexMatcher = regex.matcher(csv);
             if (regexMatcher.find()) {
-                return regexMatcher.group();
+                return regexMatcher.group(1);
                 // matched text: regexMatcher.group()
                 // match start: regexMatcher.start()
                 // match end: regexMatcher.end()
