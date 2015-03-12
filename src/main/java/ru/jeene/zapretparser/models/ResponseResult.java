@@ -60,6 +60,7 @@ public enum ResponseResult {
     UNSUPPORTED_MEDIA_TYPE(415, "Unsupported Media Type"),
     REQUESTED_RANGE_NOT_SATISFIABLE(416, "Requested Range Not Satisfiable"),
     EXPECTATION_FAILED(417, "Expectation Failed"),
+    UNAVAILABLE_FOR_LEGAL_REASONS(451, "Unavailable For Legal Reasons"),
     INTERNAL_SERVER_ERROR(500, "Internal Server Error"),
     NOT_IMPLEMENTED(501, "Not Implemented"),
     BAD_GATEWAY(502, "Bad Gateway"),

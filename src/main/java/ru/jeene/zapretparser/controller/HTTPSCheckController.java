@@ -30,6 +30,7 @@ import java.util.logging.Logger;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLHandshakeException;
 import javax.net.ssl.SSLProtocolException;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
@@ -77,8 +78,11 @@ public class HTTPSCheckController {
                 }
             }
             return res;
-        } catch (UnknownHostException ex) {
+        }//
+        catch (UnknownHostException ex) {
             res = ResponseResult.UNKNOWN_HOST;
+        } catch (SSLHandshakeException ex) {
+            res = ResponseResult.SSLHANDSHAKE_EXCEPTION;
         } catch (SocketTimeoutException | ConnectException ex) {
             res = ResponseResult.TIMEOUT;
         } catch (SocketException ex) {
@@ -91,6 +95,7 @@ public class HTTPSCheckController {
             Logger.getLogger(HTTPSCheckController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
             res = ResponseResult.UNKNOWN;
+            System.err.println(ex);
         }
         return res;
     }

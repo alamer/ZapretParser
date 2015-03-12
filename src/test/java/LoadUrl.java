@@ -29,6 +29,8 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import ru.jeene.zapretparser.controller.HTTPCheckController;
+import ru.jeene.zapretparser.controller.HTTPSCheckController;
 
 /**
  *
@@ -78,19 +80,7 @@ public class LoadUrl {
      }*/
     @Test
     public void hello2() {
-        try {
-            HttpURLConnection connection = (HttpURLConnection) new URL("http://Tutrostov.ru/doska/28397.php").openConnection();
-            connection.setRequestMethod("HEAD");
-            connection.connect();
-            int responseCode = connection.getResponseCode();
-            System.out.println( connection.getContentLength( ));
-            if (responseCode != 200) {
-                System.out.println(responseCode);
-            }
-        } catch (UnknownHostException ex) {
-            System.out.println("Unknown Host");
-        } catch (IOException ex) {
-            Logger.getLogger(LoadUrl.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        HTTPCheckController c = new HTTPCheckController();
+        System.out.println(c.checkUrl("http://akkoid.sakura.ne.jp/201406/14c/19.jpg"));
     }
 }
