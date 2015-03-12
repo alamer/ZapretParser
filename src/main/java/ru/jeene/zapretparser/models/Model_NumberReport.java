@@ -25,7 +25,7 @@ public class Model_NumberReport {
 
     public void addNumber(int overall) {
         number++;
-        percent = number / overall * 100;
+        percent = (double)number / (double)overall * 100;
     }
 
 }
