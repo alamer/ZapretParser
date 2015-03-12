@@ -165,7 +165,7 @@ public class XLSXReportController {
                 if (row == null) {
                     row = sheet.createRow(t0_start - 1 + cnt);
                 }
-                //Результат
+                /*//Результат
                 cell = row.getCell(cnt_cell);
                 if (cell == null) {
                     cell = row.createCell(cnt_cell);
@@ -173,7 +173,7 @@ public class XLSXReportController {
                 cell.setCellType(XSSFCell.CELL_TYPE_STRING);
                 cell.setCellValue(key.name());
                 cell.setCellStyle(cs1);
-                cnt_cell++;
+                cnt_cell++;*/
 
                 //Результат (описание)
                 cell = row.getCell(cnt_cell);
@@ -185,7 +185,7 @@ public class XLSXReportController {
                 cell.setCellStyle(cs1);
                 cnt_cell++;
 
-                //Результат (код)
+                /*//Результат (код)
                 cell = row.getCell(cnt_cell);
                 if (cell == null) {
                     cell = row.createCell(cnt_cell);
@@ -193,7 +193,7 @@ public class XLSXReportController {
                 cell.setCellType(XSSFCell.CELL_TYPE_NUMERIC);
                 cell.setCellValue(key.getCode());
                 cell.setCellStyle(cs1);
-                cnt_cell++;
+                cnt_cell++;*/
 
                 //Результат (количество)
                 cell = row.getCell(cnt_cell);
